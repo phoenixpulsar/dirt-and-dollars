@@ -1,0 +1,27 @@
+---
+import { SITE } from '../data/site';
+---
+<footer class="site-footer">
+  <div class="wrap row">
+    <div class="stack about">
+      <span class="name">DIRT &amp; DOLLARS</span>
+      <p class="muted">Educational content only, not financial, tax or legal advice. Narration is AI-generated; scripts are human-written and sourced. © {new Date().getFullYear()} Dirt &amp; Dollars.</p>
+    </div>
+    <nav aria-label="Footer">
+      <a href={SITE.youtube} rel="me">YouTube</a>
+      <a href="/fence-post">Newsletter</a>
+      <a href="/privacy">Privacy</a>
+      <a href="/disclaimer">Disclaimer</a>
+    </nav>
+  </div>
+</footer>
+<style>
+  .site-footer { border-top: 1px solid var(--line); padding-block: 48px; }
+  .row { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
+  .about { gap: 10px; max-width: 540px; }
+  .name { font-family: var(--head); font-weight: 800; letter-spacing: 0.06em; }
+  .muted { font-size: 15px; }
+  nav { display: flex; flex-wrap: wrap; gap: 8px 28px; font-family: var(--head); font-weight: 600; font-size: 15px; }
+  nav a { color: var(--dust); text-decoration: none; padding: 10px 0; }
+  nav a:hover { color: var(--paper); }
+</style>

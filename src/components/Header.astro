@@ -1,0 +1,28 @@
+---
+import Logo from './Logo.astro';
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="brand" aria-label="Dirt & Dollars home"><Logo size={40} /><span>DIRT &amp; DOLLARS</span></a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/#videos">Videos</a></li>
+        <li><a href="/fence-post">The Fence Post</a></li>
+        <li><a href="/#about">About</a></li>
+      </ul>
+      <a href="/#subscribe" class="btn btn-copper cta">Get the Fence Post</a>
+    </nav>
+  </div>
+</header>
+<style>
+  .site-header { position: sticky; top: 0; z-index: 50; background: rgba(20, 28, 39, 0.92); backdrop-filter: saturate(140%) blur(10px); border-bottom: 1px solid var(--line); }
+  .bar { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 12px; color: var(--paper); text-decoration: none; font-family: var(--head); font-weight: 800; font-size: 20px; letter-spacing: 0.04em; }
+  nav { display: flex; align-items: center; gap: 36px; }
+  ul { display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; }
+  ul a { color: var(--dust); text-decoration: none; font-family: var(--head); font-weight: 600; font-size: 16px; padding: 12px 0; }
+  ul a:hover { color: var(--paper); }
+  .cta { min-height: 46px; font-size: 15px; padding: 0 20px; }
+  @media (max-width: 860px) { ul { display: none; } .brand span { font-size: 16px; } .bar { height: 64px; } }
+  @media (max-width: 400px) { .cta { padding: 0 14px; font-size: 14px; } .brand span { display: none; } }
+</style>

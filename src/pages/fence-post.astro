@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import SignupForm from '../components/SignupForm.astro';
+import { POSTS } from '../data/site';
+---
+<Base title="The Fence Post — weekly money ideas, ranch-plain" description="The Fence Post archive: one ranch-plain personal finance idea every week, with the numbers and sources. Compound interest, fees, savings and debt explained simply.">
+  <section class="section">
+    <div class="wrap stack" style="gap: 28px; max-width: 920px">
+      <p class="kicker">The Fence Post</p>
+      <h1>One money idea you can lean on, every week</h1>
+      <p class="lede">Each Dirt &amp; Dollars video ends with a Fence Post — the one line worth remembering. Here's each one written out, with the numbers and sources.</p>
+      <SignupForm id="archive-email" />
+      <ol class="list">
+        {POSTS.map((p) => (
+          <li>
+            {p.status === 'published'
+              ? <a href={`/fence-post/${p.slug}`}><span class="no">No. {String(p.number).padStart(2, '0')}</span><strong>{p.title}</strong><span class="muted">{p.summary}</span></a>
+              : <div class="up"><span class="no">No. {String(p.number).padStart(2, '0')}</span><strong>{p.title}</strong><span class="muted">{p.summary}</span></div>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Base>
+<style>
+  .list { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .list a, .list .up { display: flex; flex-direction: column; gap: 6px; padding: 24px 28px; border-radius: 14px; background: var(--denim); color: var(--paper); text-decoration: none; }
+  .list a:hover { outline: 1px solid var(--copper-soft); color: var(--paper); }
+  .list .up { background: transparent; border: 1px dashed rgba(217,199,167,.35); }
+  .no { font: 500 14px var(--mono); color: var(--copper-soft); }
+  strong { font: 800 clamp(19px, 1.8vw, 24px)/1.25 var(--head); }
+</style>

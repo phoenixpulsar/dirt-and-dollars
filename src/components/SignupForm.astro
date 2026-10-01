@@ -1,0 +1,45 @@
+---
+import { SITE } from '../data/site';
+interface Props { id: string; label?: string; button?: string; visibleLabel?: boolean; note?: boolean; center?: boolean }
+const { id, label = 'Get The Fence Post in your inbox', button = 'Send me the next one', visibleLabel = true, note = true, center = false } = Astro.props;
+const action = SITE.kitFormId ? `https://app.kit.com/forms/${SITE.kitFormId}/subscriptions` : '#subscribe';
+---
+<form class:list={['signup', { center }]} action={action} method="post" data-kit={SITE.kitFormId ? 'on' : 'off'}>
+  <label for={id} class:list={[visibleLabel ? 'signup-label' : 'sr-only']}>{label}</label>
+  <div class="signup-row">
+    <input id={id} name="email_address" type="email" required placeholder="you@email.com" autocomplete="email" inputmode="email" />
+    <button type="submit" class="btn btn-copper">{button}</button>
+  </div>
+  {note && <p class="signup-note">Free. One email a week. Unsubscribe in one click.</p>}
+  <p class="signup-status" role="status" aria-live="polite"></p>
+</form>
+<style>
+  .signup { display: flex; flex-direction: column; gap: 10px; width: 100%; max-width: 620px; }
+  .signup.center { margin-inline: auto; text-align: left; }
+  .signup-label { font-family: var(--head); font-weight: 700; font-size: 15px; }
+  .signup-row { display: flex; gap: 12px; }
+  input { flex: 1 1 auto; min-width: 0; height: 56px; padding: 0 18px; font: 400 18px var(--body); background: var(--paper); color: var(--ink); border: 2px solid transparent; border-radius: 10px; }
+  input:focus { border-color: var(--copper-soft); outline: none; }
+  .btn { height: 56px; white-space: nowrap; }
+  .signup-note { font-size: 15px; color: var(--dust-dim); }
+  .signup-status:empty { display: none; }
+  .signup-status { font-family: var(--head); font-weight: 700; color: var(--copper-soft); }
+  @media (max-width: 560px) { .signup-row { flex-direction: column; } .btn { width: 100%; } }
+</style>
+<script>
+  document.querySelectorAll<HTMLFormElement>('form.signup').forEach((form) => {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const status = form.querySelector('.signup-status') as HTMLElement;
+      if (form.dataset.kit !== 'on') { status.textContent = 'Signups open in a few days — check back soon.'; return; }
+      const btn = form.querySelector('button') as HTMLButtonElement;
+      btn.disabled = true;
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        status.textContent = res.ok ? 'You’re in. Check your inbox to confirm.' : 'Something went wrong — please try again.';
+        if (res.ok) form.reset();
+      } catch { status.textContent = 'Network hiccup — please try again.'; }
+      btn.disabled = false;
+    });
+  });
+</script>

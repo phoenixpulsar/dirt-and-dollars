@@ -1,0 +1,204 @@
+---
+import Base from '../layouts/Base.astro';
+import SignupForm from '../components/SignupForm.astro';
+import { SITE, POSTS } from '../data/site';
+
+const latest = POSTS.find((p) => p.status === 'published')!;
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE.name,
+    url: SITE.url,
+    logo: `${SITE.url}/favicon.svg`,
+    sameAs: [SITE.youtube],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: SITE.name,
+    url: SITE.url,
+    description: SITE.description,
+  },
+];
+const rules = [
+  { n: '01', h: 'Keep the heifers', p: 'Returns you leave in the pasture start earning their own. That’s compounding, and time is the one ingredient you can’t buy back.' },
+  { n: '02', h: 'Pick the right pasture', p: 'The same $10,000 grows to about $11K, $32K or $174K over 30 years depending on where it grazes. Where money sits matters more than how hard you work it.' },
+  { n: '03', h: 'Watch the fence line', p: 'Fees take one cow in a hundred every year. You won’t notice for a decade. Over a working life it adds up to more than a quarter of the herd.' },
+];
+---
+<Base jsonLd={jsonLd}>
+  <section id="top" class="hero">
+    <div class="wrap hero-grid">
+      <div class="stack hero-copy">
+        <p class="kicker">Personal finance · ranch-plain</p>
+        <h1>Money makes sense when you explain it with <span class="accent">dirt and cattle.</span></h1>
+        <p class="lede">Compound interest, fees, savings, debt — the money mechanics nobody taught you, told as ranch stories you'll actually remember. One idea a week, free.</p>
+        <div id="subscribe"><SignupForm id="hero-email" /></div>
+      </div>
+      <figure class="hero-fig">
+        <img src="/ten-cows.webp" srcset="/ten-cows-640.webp 640w, /ten-cows.webp 1280w" sizes="(max-width: 900px) 100vw, 50vw" width="1280" height="720" alt="Ten cattle silhouetted on a ridge at sunset under the words 10 cows, 1,700 cows" fetchpriority="high" />
+        <figcaption><span class="dot"></span>New video: 10 cows became 1,700</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="alt proof" aria-label="Why trust this">
+    <div class="wrap proof-grid">
+      <div class="stack"><strong>Sources on every claim</strong><span>FDIC, Dept. of Labor, USDA — listed under each video.</span></div>
+      <div class="stack"><strong>Five minutes, one idea</strong><span>No hot stock tips, no courses to sell you.</span></div>
+      <div class="stack"><strong>Education, not advice</strong><span>We explain how money works. Your moves are yours.</span></div>
+    </div>
+  </section>
+
+  <section id="videos" class="light section">
+    <div class="wrap stack" style="gap: 44px">
+      <div class="head-row">
+        <div class="stack" style="gap: 12px">
+          <p class="kicker">Latest on YouTube</p>
+          <h2>Compound interest, explained with ten cows</h2>
+        </div>
+        <a href={SITE.youtube} class="all">All videos →</a>
+      </div>
+      <div class="grid-12">
+        <a class="video" href={`https://youtu.be/${latest.videoId}`} style="grid-column: span 7" aria-label="Watch 10 Cows Became 1,700 on YouTube">
+          <img src="/ten-cows.webp" width="1280" height="720" loading="lazy" alt="Video thumbnail: 10 cows, 1,700 cows" />
+          <span class="play" aria-hidden="true"><svg width="28" height="32" viewBox="0 0 30 34"><path d="M2 2 L28 17 L2 32 Z" fill="#F3EBDC" /></svg></span>
+          <span class="dur">5:02</span>
+        </a>
+        <div class="stack" style="grid-column: span 5; gap: 20px">
+          <p class="lede">Two ranchers. Ten cows each. Thirty years later one has two cows and the other runs 1,700 head. One decision made the difference — and it's the same one your bank account makes.</p>
+          <h3>You'll learn</h3>
+          <ul class="learn">
+            <li>Why interest is calves — and compounding is keeping the heifers</li>
+            <li>How $11,000 saved early beats $35,000 saved late</li>
+            <li>What a 1% fee quietly takes over 35 years</li>
+          </ul>
+          <div class="btn-row">
+            <a class="btn btn-dark" href={`https://youtu.be/${latest.videoId}`}>Watch on YouTube</a>
+            <a href={`/fence-post/${latest.slug}`}>Read the Fence Post →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="rules-h">
+    <div class="wrap stack" style="gap: 48px">
+      <div class="stack" style="gap: 12px; max-width: 760px">
+        <p class="kicker">The ranch rules of money</p>
+        <h2 id="rules-h">Three ideas this channel keeps coming back to</h2>
+      </div>
+      <div class="rules">
+        {rules.map((r) => (
+          <article class="rule">
+            <span class="num" aria-hidden="true">{r.n}</span>
+            <h3>{r.h}</h3>
+            <p>{r.p}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="fence-post" class="alt section">
+    <div class="wrap grid-12">
+      <div class="stack" style="grid-column: span 5; gap: 20px">
+        <p class="kicker">The Fence Post archive</p>
+        <h2>One idea you can lean on, every week</h2>
+        <p class="lede">Every video ends with a Fence Post — the one line worth remembering. The newsletter expands it into a two-minute read with the numbers and sources.</p>
+        <a href="#subscribe" class="btn btn-copper" style="align-self: flex-start">Subscribe free</a>
+      </div>
+      <ol class="posts" style="grid-column: span 7">
+        {POSTS.map((p) => (
+          <li>
+            {p.status === 'published' ? (
+              <a class="post" href={`/fence-post/${p.slug}`}>
+                <span class="no">No. {String(p.number).padStart(2, '0')}</span>
+                <span class="stack t"><strong>{p.title}</strong><span>{p.summary}</span></span>
+                <span class="read" aria-hidden="true">Read →</span>
+              </a>
+            ) : (
+              <div class="post upcoming">
+                <span class="no">No. {String(p.number).padStart(2, '0')}</span>
+                <span class="stack t"><strong>{p.title}</strong><span>{p.summary}</span></span>
+              </div>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section id="about" class="light section">
+    <div class="wrap grid-12" style="align-items: center">
+      <figure class="about-fig" style="grid-column: span 5">
+        <img src="/ten-cows-640.webp" width="640" height="360" loading="lazy" alt="Cattle at sunset on open Texas pasture" />
+      </figure>
+      <div class="stack" style="grid-column: span 7; gap: 20px">
+        <p class="kicker">Who's behind this</p>
+        <h2>Written by a Texas developer who got tired of money being explained badly</h2>
+        <p class="lede">I'm Andres. I write every script, check every number against a public source, and turn it into a ranch story because that's how ideas stick. The narration is an AI voice — I'd rather spend my time getting the numbers right.</p>
+        <p class="small">Dirt &amp; Dollars is education, not financial advice. Talk to a licensed professional before you move real money.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt section cta" aria-labelledby="cta-h">
+    <div class="wrap stack" style="gap: 20px; align-items: center; text-align: center">
+      <h2 id="cta-h">Start keeping the heifers.</h2>
+      <p class="lede">One ranch-plain money idea every week. Free, short, sourced.</p>
+      <SignupForm id="cta-email" visibleLabel={false} label="Email address" button="Subscribe free" note={false} center />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-block: clamp(40px, 7vw, 104px); }
+  .hero-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .hero-copy { gap: 26px; }
+  .accent { color: var(--copper-soft); }
+  .hero-fig { margin: 0; position: relative; }
+  .hero-fig img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+  .hero-fig figcaption { position: absolute; left: 20px; bottom: -24px; display: flex; gap: 10px; align-items: center; background: var(--denim); border: 1px solid rgba(224,162,121,.5); border-radius: 10px; padding: 12px 16px; font: 700 15px var(--head); }
+  .dot { width: 10px; height: 10px; border-radius: 5px; background: var(--copper-soft); }
+  @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } .hero-fig figcaption { position: static; margin-top: 12px; display: inline-flex; } }
+
+  .proof { padding-block: 28px; }
+  .proof-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .proof strong { font: 800 clamp(19px, 1.8vw, 26px) var(--head); }
+  .proof span { color: var(--dust); font-size: 16px; }
+  @media (max-width: 760px) { .proof-grid { grid-template-columns: 1fr; gap: 18px; } }
+
+  .head-row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+  .all { font: 700 17px var(--head); }
+  .video { position: relative; display: block; border-radius: var(--radius); overflow: hidden; }
+  .video img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; transition: transform .3s ease; }
+  .video:hover img { transform: scale(1.02); }
+  .play { position: absolute; left: 50%; top: 50%; width: 88px; height: 88px; margin: -44px 0 0 -44px; border-radius: 44px; background: rgba(20,28,39,.85); display: flex; align-items: center; justify-content: center; }
+  .dur { position: absolute; right: 14px; bottom: 14px; background: rgba(20,28,39,.9); color: var(--paper); font: 700 14px var(--head); padding: 5px 9px; border-radius: 6px; }
+  .learn { margin: 0; padding-left: 1.2em; line-height: 1.7; }
+  .btn-row { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; font: 700 16px var(--head); }
+
+  .rules { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+  .rule { background: var(--denim); border-radius: var(--radius); padding: clamp(24px, 3vw, 40px); display: flex; flex-direction: column; gap: 14px; }
+  .num { font: 800 clamp(36px, 4vw, 56px) var(--head); color: var(--copper-soft); line-height: 1; }
+  .rule p { color: var(--dust); }
+  @media (max-width: 900px) { .rules { grid-template-columns: 1fr; } }
+
+  .posts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+  .post { display: flex; gap: 24px; align-items: center; padding: 24px 28px; background: var(--denim-deep); border-radius: 14px; color: var(--paper); text-decoration: none; }
+  a.post:hover { outline: 1px solid var(--copper-soft); color: var(--paper); }
+  .post.upcoming { background: transparent; border: 1px dashed rgba(217,199,167,.35); }
+  .no { font: 500 14px var(--mono); color: var(--copper-soft); flex: 0 0 64px; }
+  .upcoming .no, .upcoming span { color: var(--dust-dim); }
+  .t { gap: 4px; flex: 1; }
+  .t strong { font: 800 clamp(18px, 1.6vw, 22px)/1.25 var(--head); }
+  .t span { color: var(--dust); font-size: 16px; }
+  .read { font: 700 15px var(--head); color: var(--copper-soft); }
+  @media (max-width: 560px) { .post { flex-direction: column; align-items: flex-start; gap: 8px; padding: 20px; } .no { flex: none; } .read { display: none; } }
+
+  .about-fig { margin: 0; }
+  .about-fig img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); }
+  .small { font-size: 16px; color: #4A4030; }
+</style>
