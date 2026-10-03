@@ -5,7 +5,6 @@ export const SITE = {
   description:
     'Ranch-plain personal finance. Compound interest, fees, savings and debt explained as stories you will remember — free weekly newsletter and YouTube videos with sources.',
   youtube: 'https://www.youtube.com/@dirtanddollars',
-  author: 'Andres',
   ogImage: '/og-ten-cows.jpg',
   kitFormId: import.meta.env.PUBLIC_KIT_FORM_ID ?? '',
 };

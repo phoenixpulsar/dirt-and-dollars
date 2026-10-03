@@ -13,7 +13,7 @@ const jsonLd: Record<string, unknown>[] = [
     description,
     datePublished: post.date,
     dateModified: post.date,
-    author: { '@type': 'Person', name: SITE.author, url: SITE.url },
+    author: { '@type': 'Organization', name: SITE.name, url: SITE.url },
     publisher: { '@type': 'Organization', name: SITE.name, logo: { '@type': 'ImageObject', url: `${SITE.url}/favicon.svg` } },
     image: `${SITE.url}${SITE.ogImage}`,
     mainEntityOfPage: url,
