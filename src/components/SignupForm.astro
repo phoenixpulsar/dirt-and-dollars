@@ -36,8 +36,12 @@ const action = SITE.kitFormId ? `https://app.kit.com/forms/${SITE.kitFormId}/sub
       btn.disabled = true;
       try {
         const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
-        status.textContent = res.ok ? 'You’re in. Check your inbox to confirm.' : 'Something went wrong — please try again.';
-        if (res.ok) form.reset();
+        // Kit answers 200 even when it rejects the signup; the real result is in the JSON body.
+        const data = await res.json().catch(() => null);
+        if (data?.status === 'quarantined' && data.url) { window.location.href = data.url; return; }
+        const ok = res.ok && data?.status === 'success';
+        status.textContent = ok ? 'You’re in. Check your inbox to confirm.' : 'Something went wrong — please try again.';
+        if (ok) form.reset();
       } catch { status.textContent = 'Network hiccup — please try again.'; }
       btn.disabled = false;
     });
