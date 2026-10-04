@@ -31,7 +31,7 @@ const action = SITE.kitFormId ? `https://app.kit.com/forms/${SITE.kitFormId}/sub
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const status = form.querySelector('.signup-status') as HTMLElement;
-      if (form.dataset.kit !== 'on') { status.textContent = 'Signups open in a few days — check back soon.'; return; }
+      if (form.dataset.kit !== 'on') { status.textContent = 'Something went wrong — please try again.'; return; }
       const btn = form.querySelector('button') as HTMLButtonElement;
       btn.disabled = true;
       try {
